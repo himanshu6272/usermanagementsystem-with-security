@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+</head>
+<body class="bg-warning text-warning">
+<header th:replace="~{header::header-main}"></header>
+<div class="container">
+    <div class="row" id="register-user-header">
+        <div class="col bg-dark text-center user-icon-div p-3">
+            <h3>Register here</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col p-0 bg-secondary">
+            <div th:if="${session.message}" th:classappend="${session.message.status}" class="alert alert-div"
+                 role="alert">
+                <p id="message" class="p-0 m-0" th:text="${session.message.message}"></p>
+                <th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>
+            </div>
+            <form id="registration-form" th:action="@{/create}" method="post" th:object="${user}"
+                  enctype="multipart/form-data"
+                  class="rounded-lg p-4">
+                <div class="row">
+                    <div class="form-group col-lg-6 col-sm-11">
+                        <label for="fname">First name</label>
+                        <input type="text" class="form-control" id="fname" placeholder="Enter first name"
+                               name="firstName" th:classappend="${#fields.hasErrors('firstName')?'is-invalid':''}"
+                               th:value="${user.firstName}">
+                        <div th:each="e : ${#fields.errors('firstName')}" th:text="${e}" class="invalid-feedback"></div>
+                        <small id="fnameHelp" class="form-text"></small>
+                    </div>
+                    <div class="form-group col-lg-6 col-sm-11">
+                        <label for="lname">Last name</label>
+                        <input type="text" class="form-control" id="lname" placeholder="Enter last name"
+                               name="lastName" th:classappend="${#fields.hasErrors('lastName')?'is-invalid':''}"
+                               th:value="${user.lastName}">
+                        <div th:each="e : ${#fields.errors('lastName')}" th:text="${e}" class="invalid-feedback"></div>
+                        <small id="lnameHelp" class="form-text"></small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-6 col-sm-11">
+                        <label for="mobile-number">Mobile number</label>
+                        <input type="text" class="form-control" id="mobile-number" placeholder="Enter mobile number"
+                               name="mobile" th:classappend="${#fields.hasErrors('mobile')?'is-invalid':''}"
+                               th:value="${user.mobile}">
+                        <div th:each="e : ${#fields.errors('mobile')}" th:text="${e}" class="invalid-feedback"></div>
+                        <small id="mobileHelp" class="form-text"></small>
+                    </div>
+                    <div class="form-group col-lg-6 col-sm-11">
+                        <label for="email-address">Email address</label>
+                        <input type="email" class="form-control" id="email-address" placeholder="Enter email"
+                               name="email" th:classappend="${#fields.hasErrors('email')?'is-invalid':''}"
+                               th:value="${user.email}">
+                        <div th:each="e : ${#fields.errors('email')}" th:text="${e}" class="invalid-feedback"></div>
+                        <small id="emailHelp" class="form-text"></small>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 col-sm-11">
+                        <div class="row">
+                            <div class="form-group col-5">
+                                <label class="d-block">Role</label>
+                                <input type="radio" name="role" class="role" id="admin" value="ADMIN">
+                                <label for="admin">Admin</label>
+                                <input type="radio" name="role" class="role" id="user" value="USER">
+                                <label for="user">User</label>
+                                <small id="roleHelp" class="form-text text-danger"></small>
+                                <small class="form-text text-danger" th:each="e : ${#fields.errors('role')}"
+                                       th:text="${e}"></small>
+
+                            </div>
+                            <div class="form-group col-7">
+                                <label class="d-block">Gender</label>
+                                <input type="radio" name="gender" class="gender" id="male" value="male">
+                                <label for="male">Male</label>
+                                <input type="radio" name="gender" class="gender" id="female" value="female">
+                                <label for="female">Female</label>
+                                <input type="radio" name="gender" class="gender" id="others" value="others">
+                                <label for="others">Others</label>
+                                <small id="genderHelp" class="form-text text-danger"></small>
+                                <small class="form-text text-danger" th:each="e : ${#fields.errors('gender')}"
+                                       th:text="${e}"></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-6 fake-input" >
+                        <label for="dob">Date of Birth</label><br>
+                        <input type="text" class="form-control" id="dob" name="dob" th:value="${user.dob}">
+                        <img th:src="@{/images/calender.png}" id="calendar-icon" width="20px" height="20px">
+                        <!--<span id="calendar-icon" class="fa fa-calendar"></span>-->
+                        <small id="dateHelp" class="form-text text-danger"></small>
+                        <small class="form-text text-danger" th:each="e : ${#fields.errors('dob')}"
+                               th:text="${e}"></small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="d-block">Address</label>
+                    <button type="button" class="btn btn-warning" id="add-address-btn" data-toggle="modal"
+                            data-target="#staticBackdrop">Add Address
+                    </button>
+
+                    <!--          <div class="form-group w-100 d-none mt-3" id="address">-->
+                    <!--            <input type="text" class="form-control mt-2" placeholder="Street" id="inputStreet" >-->
+                    <!--            <small id="streetHelp" class="form-text mt-0"></small>-->
+                    <!--            <input type="text" class="form-control mt-2" id="inputCity" placeholder="City" >-->
+                    <!--            <small id="cityHelp" class="form-text mt-0" ></small>-->
+                    <!--            <input type="text" class="form-control  mt-2" id="inputState" placeholder="State" >-->
+                    <!--            <small id="stateHelp" class="form-text mt-0"></small>-->
+                    <!--            <input type="text" class="form-control mt-2" id="inputZip" placeholder="Zip" >-->
+                    <!--            <small id="zipHelp" class="form-text mt-0"></small>-->
+                    <!--            <input type="text" class="form-control mt-2" id="inputCountry" placeholder="County" >-->
+                    <!--            <small id="countryHelp" class="form-text mt-0"></small>-->
+                    <!--            <button type="button" class="btn btn-primary mt-2 px-4" id="save-address-btn">Add</button>-->
+                    <!--            <button type="button" class="btn btn-primary mt-2 px-3" id="cancel-address-btn">Cancel</button>-->
+                    <!--          </div>-->
+                    <div class="table-container px-3 pt-3 d-none">
+                        <table class="table table-bordered">
+                            <thead class="bg-dark">
+                            <tr>
+                                <th>Street</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Zip</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="addresses"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-6 col-sm-11">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Password"
+                               name="password" th:classappend="${#fields.hasErrors('password')?'is-invalid':''}"
+                               th:value="${user.password}">
+                        <div th:each="e : ${#fields.errors('password')}" th:text="${e}" class="invalid-feedback"></div>
+                        <small id="passwordHelp" class="form-text"></small>
+                    </div>
+                    <div class="form-group col-lg-6 col-sm-11">
+                        <label for="cnf-password">Confirm password</label>
+                        <input type="password" class="form-control" id="cnf-password" placeholder="Confirm password"
+                               name="cnfPassword" th:classappend="${#fields.hasErrors('password')?'is-invalid':''}"
+                               th:value="${user.password}">
+                        <div th:each="e : ${#fields.errors('password')}" th:text="${e}" class="invalid-feedback"></div>
+                        <small id="cnfpasswordHelp" class="form-text"></small>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-6 col-sm-11">
+                        <label for="security-que">Security question: </label>
+                        <select class="form-control" name="securityQuestion" id="security-que">
+                            <option>Who is your favourite Bollywood Star?</option>
+                            <option>Who is your favourite Cricketer?</option>
+                            <option>Who is your favourite Teacher?</option>
+                            <option>Who you love the most?</option>
+                        </select>
+                        <small id="securityQuestionHelp" class="form-text mb-4"></small>
+                        <input type="text" class="form-control" id="security-answer" placeholder="Enter answer here"
+                               name="securityAnswer"
+                               th:classappend="${#fields.hasErrors('securityAnswer')?'is-invalid':''}"
+                               th:value="${user.securityAnswer}">
+                        <div th:each="e : ${#fields.errors('securityAnswer')}" th:text="${e}"
+                             class="invalid-feedback"></div>
+                        <small id="securityanswerHelp" class="form-text"></small>
+                    </div>
+
+                    <div class="form-group col-lg-6 col-sm-11 mt-4">
+                        <label for="profile-photo">Profile Photo</label><br>
+                        <input type="file" id="profile-photo" name="file">
+                        <small id="profilephotoHelp" class="form-text"></small>
+                    </div>
+                </div>
+
+                <input type="submit" value="Submit" class="btn btn-warning w-25" id="submit-btn"/>
+                <input type="reset" value="Reset" class="btn btn-warning ml-2 w-25"/>
+            </form>
+        </div>
+    </div>
+</div>
+<!--<button type="button" class="btn btn-warning py-0" data-toggle="modal" data-target="#staticBackdrop">View</button>-->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content  text-warning">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title" id="staticBackdropLabel">User Address List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-warning" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-secondary">
+                <div class="w-100 mt-3" id="address">
+                    <input type="text" class="form-control mt-2" placeholder="Street" id="inputStreet">
+                    <small id="streetHelp" class="form-text mt-0 text-danger"></small>
+                    <input type="text" class="form-control mt-2" id="inputCity" placeholder="City">
+                    <small id="cityHelp" class="form-text mt-0 text-danger"></small>
+                    <input type="text" class="form-control  mt-2" id="inputState" placeholder="State">
+                    <small id="stateHelp" class="form-text mt-0 text-danger"></small>
+                    <input type="text" class="form-control mt-2" id="inputZip" placeholder="Zip">
+                    <small id="zipHelp" class="form-text mt-0 text-danger"></small>
+                    <input type="text" class="form-control mt-2" id="inputCountry" placeholder="County">
+                    <small id="countryHelp" class="form-text mt-0 text-danger"></small>
+<!--                    <button type="button" class="btn btn-warning mt-2 px-5" id="save-address-btn">Add</button>-->
+                </div>
+
+            </div>
+            <div class="modal-footer bg-dark">
+                <button type="button" class="btn btn-warning" id="save-address-btn">Add Address</button>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{footer::footer}"></footer>
+<script th:src="@{/js/jQuery 3.6.4.js}"></script>
+<script th:src="@{/js/jquery-ui.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+    $("#dob").datepicker({
+      dateFormat: "yy-mm-dd",
+      maxDate: 0,
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "-100:+0"
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-warning">
+<header th:replace="header::header-main"></header>
+<div class="container div-cont">
+    <div class="row w-50 mx-auto">
+        <div class="col bg-secondary text-center login-user-icon-div p-2 rounded-top mt-5">
+            <h4 class="text-white">Reset Password</h4>
+        </div>
+    </div>
+    <div class="row w-50 mx-auto">
+        <div class="col w-75 bg-dark p-5 rounded-bottom">
+            <form th:action="@{/resetPassword}" class="border border-solid border-warning rounded-lg p-5 text-warning" method="post" id="reset-form">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input th:if="${email}" hidden class="form-control" id="email" name="email" th:value="${email}">
+                    <input type="password" class="form-control" id="password" placeholder="Password"
+                           name="password">
+                    <small id="passwordHelp" class="form-text"></small>
+                </div>
+                <div class="form-group">
+                    <label for="cnf-password">Confirm password</label>
+                    <input type="password" class="form-control" id="cnf-password" placeholder="Confirm password">
+                    <small id="cnfpasswordHelp" class="form-text"></small>
+                </div>
+                <input type="submit" class="btn btn-warning w-50 mt-3" id="reset-submit-btn" value="Reset">
+            </form>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{footer::footer}"></footer>
+<script th:src="@{/js/jQuery%203.6.4.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+</body>
+</html>

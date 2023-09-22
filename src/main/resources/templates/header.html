@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<header th:fragment="header-main">
+    <nav class="navbar navbar-light sticky-top font-weight-bold p-3">
+        <a href="home" class="btn btn-warning ml-5" id="home-btn">Home</a>
+    <div class="mr-5">
+        <a href="register" class="btn btn-warning" id="register-btn">Register</a>
+        <a href="login" class="btn btn-warning ml-2" id="login-btn">Login</a>
+    </div>
+    </nav>
+</header>
+
+<header th:fragment="header-view">
+    <nav class="navbar navbar-light sticky-top font-weight-bold p-3">
+        <a th:href="@{/viewPage}" class="btn btn-warning ml-5" id="view-home-btn">Home</a>
+        <div class="mr-5">
+            <a th:href="@{/logout}" class="btn btn-warning logout-btn">Logout</a>
+        </div>
+    </nav>
+</header>
+
+<header th:fragment="header-admin">
+    <nav class="navbar navbar-light sticky-top font-weight-bold p-3">
+        <a th:href="@{/admin}" class="btn btn-warning ml-5" id="dashboard-btn">Dashboard</a>
+        <div class="mr-5" id="header-div">
+            <a th:href="@{'/edit/' + ${session.adminId}}" class="btn btn-warning" id="update-profile-btn">Edit Profile</a>
+            <a th:href="@{/logout}" class="btn btn-warning ml-2 logout-btn">Logout</a>
+        </div>
+    </nav>
+</header>
+
+</body>
+</html>

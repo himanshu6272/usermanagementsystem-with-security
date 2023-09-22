@@ -1,0 +1,176 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+footer {
+    background-color: black;
+}
+
+#addresses {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.user-icon-div {
+    width: 100%;
+}
+
+#profile-image {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+#profile-image img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+#errorPopup {
+    position: fixed;
+    top: 80px;
+    left: 20px;
+    z-index: 2;
+}
+
+.div-cont {
+    min-height: 81vh;
+}
+
+#myInput {
+    width: 50%;
+    font-size: 16px;
+    padding: 6px 20px 6px 40px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-left: 100px;
+}
+
+.login-user-icon-div img {
+    width: 6%;
+}
+
+.navbar {
+    background-color: black;
+}
+.table-container{
+    overflow-x:auto;
+}
+
+
+
+#img-div{
+    width:100% !important;
+    height:400px !important;
+    background-image: url('/images/user-icon.png');
+    background-size: cover;
+    border-radius:10px;
+
+}
+
+#profile-img{
+    width:100%;
+    height: 100%;
+    border-radius:10px;
+}
+
+table{
+    width:100% !important;
+    }
+
+table input {
+    padding:5px 0px;
+    border:none;
+    border-bottom: 2px solid orange;
+    background-color:#6c757d;
+    outline:none;
+    color:orange;
+    width:100%;
+}
+
+
+#calendar-icon:hover{
+cursor: pointer;
+}
+
+
+.fake-input { position: relative; width:240px; }
+.fake-input input { border:none; background-color:#fff; display:block; width: 100%; box-sizing: border-box }
+.fake-input img { position: absolute; top: 40px; right: 25px; }
+
+
+.card {
+    width: 350px;
+    background-color: #efefef;
+    border: none;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.image img {
+    transition: all 0.5s
+}
+
+.card:hover .image img {
+    transform: scale(1.5)
+}
+
+.image button {
+    height: 140px;
+    width: 140px;
+    border-radius: 50%
+}
+
+.name {
+    font-size: 22px;
+    font-weight: bold
+}
+
+.idd {
+    font-size: 14px;
+    font-weight: 600
+}
+
+.idd1 {
+    font-size: 12px
+}
+
+.number {
+    font-size: 22px;
+    font-weight: bold
+}
+
+.follow {
+    font-size: 12px;
+    font-weight: 500;
+    color: #444444
+}
+
+
+
+.text span {
+    font-size: 13px;
+    color: #545454;
+    font-weight: 500
+}
+
+.icons i {
+    font-size: 19px
+}
+
+hr .new1 {
+    border: 1px solid
+}
+
+.join {
+    font-size: 14px;
+    color: #a0a0a0;
+    font-weight: bold
+}
+
+.date {
+    background-color: #ccc
+}

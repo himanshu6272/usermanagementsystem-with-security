@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body class="bg-warning">
+<header th:replace="~{header::header-main}"></header>
+<div class="container div-cont">
+  <div class="row">
+    <div class="jumbotron col mb-0 text-warning mt-5 bg-dark">
+      <h1 class="display-4 font-weight-normal my-4">Welcome to Inexture</h1>
+      <p class="lead text-white">We specialise in enterprise software development, leveraging our expertise in Python, Java, and Mobile App development to turn innovative ideas into successful software solutions. With our offshore team of skilled developers, we bring a wealth of experience and knowledge to the table, driving results through cutting-edge technology and precision in every detail.</p>
+      <hr class="my-4 bg-warning">
+      <p class="lead">
+        <a class="btn btn-warning btn-lg mr-3" href="register" role="button">Register</a>
+        <a class="btn btn-warning btn-lg" href="login" role="button">Login</a>
+      </p>
+    </div>
+  </div>
+</div>
+<footer th:replace="~{footer::footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<body class="bg-warning">
+<div th:if="${session.loggedIn == 'user'}"><header  th:replace="~{header::header-view}"></header></div>
+<div th:if="${session.loggedIn == 'admin'}"><header  th:replace="~{header::header-admin}"></header></div>
+<div class="container">
+    <div class="bg-dark">
+        <h2 class="text-center text-warning py-3 m-0">Edit User Details</h2>
+    </div>
+    <div th:if="${session.message}" th:classappend="${session.message.status}" class="alert alert-div mb-0"
+         role="alert">
+        <p id="message" class="p-0 m-0" th:text="${session.message.message}"></p>
+        <th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>
+    </div>
+    <form th:action="@{/editUser}" class="bg-secondary text-warning pb-4" method="post" th:object="${user}"
+          enctype="multipart/form-data">
+        <div class="row m-0">
+            <div class="col-lg-5 col-sm-11 p-5 px-0">
+                <div class="text-center">
+                    <div id="img-div">
+                        <img id="profile-img" th:src="${imgUrl}" alt="" class="img-fluid"
+                             height="100%" width="100%">
+                    </div>
+                    <button type="button" class="btn btn-warning mt-3" id="update-image-btn">Update Profile
+                        Image
+                    </button>
+                    <input id="select-file-btn" type="file" class="d-none" name="file">
+                </div>
+            </div>
+            <div class="col-lg-7 col-sm-11 py-5 pr-5 ">
+                <div class="border border-solid border-warning h-100 p-4" style="border-radius:10px;">
+                    <input hidden="hidden" name="id" th:value="${user.id}"><input hidden="hidden" name="email" th:value="${user.email}"><input hidden="hidden" name="securityQuestion" th:value="${user.securityQuestion}"><input hidden="hidden" name="securityAnswer" th:value="${user.securityAnswer}"><input hidden="hidden" name="role" th:value="${user.role}"><input hidden="hidden" name="password" th:value="${user.password}">
+                    <label for="fname" class="m-0 pt-2">First Name</label>
+                    <input type="text" id="fname" class="form-control" th:value="${user.firstName}" name="firstName">
+                    <small id="fnameHelp" class="form-text"></small>
+
+                    <label for="lname" class="m-0 pt-2">Last Name</label>
+                    <input type="text" id="lname" class="form-control" th:value="${user.lastName}" name="lastName">
+                    <small id="lnameHelp" class="form-text"></small>
+
+                    <label for="mobile-number" class="m-0 pt-2">Mobile</label>
+                    <input type="text" id="mobile-number" class="form-control" th:value="${user.mobile}" name="mobile">
+                    <small id="mobileHelp" class="form-text"></small>
+
+                    <label class="m-0 pt-2">Gender</label><br>
+                    <input th:checked="${user.gender == 'male'}" type="radio" name="gender" class="gender" id="male"
+                           value="male">
+                    <label for="male">Male</label>
+                    <input th:checked="${user.gender == 'female'}" type="radio" name="gender" class="gender" id="female"
+                           value="female">
+                    <label for="female">Female</label>
+                    <input th:checked="${user.gender == 'others'}" type="radio" name="gender" class="gender" id="others"
+                           value="others">
+                    <label for="others">Others</label>
+                    <small id="genderHelp" class="form-text text-danger mt-0"></small>
+
+                    <div class="form-group fake-input w-100">
+                        <label for="dob">Date of Birth</label><br>
+                        <input type="text" class="form-control" id="dob" name="dob" th:value="${user.dob}">
+                        <img th:src="@{/images/calender.png}" id="calendar-icon" width="20px" height="20px">
+                        <small id="dateHelp" class="form-text text-danger"></small>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <hr class="bg-warning">
+        <div class="form-group px-4">
+
+            <label class="d-block ml-3">Address</label>
+            <button type="button" class="btn btn-warning ml-3" id="add-address-btn" data-toggle="modal"
+                    data-target="#staticBackdrop">Add Address
+            </button>
+            <div class="table-container px-3 pt-3 w-100">
+                <table class="table table-bordered table-responsive">
+                    <thead class="bg-dark">
+                    <tr>
+                        <th>Street</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Zip</th>
+                        <th>Country</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody id="addresses">
+                    <tr th:each="address : ${user.addresses}">
+                        <td><input hidden="hidden" name="addressid" th:value="${address.aid}"><input class="aid" name="aid" hidden="hidden" th:value="${address.aid}"><input class="street" readonly
+                                                                                    th:value="${address.street}" name="street"></td>
+                        <td><input class="city" readonly th:value="${address.city}" name="city"></td>
+                        <td><input class="state" readonly th:value="${address.state}" name="state"></td>
+                        <td><input class="zip" readonly th:value="${address.zip}" name="zip"></td>
+                        <td><input class="country" readonly th:value="${address.country}" name="country"></td>
+                        <td>
+                            <input class="btn btn-warning py-0 px-1 remove-address-btn" type="button" value="Remove">
+                            <input class="btn btn-warning py-0 px-1 edit-address-btn" type="button" value="Update">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="text-center">
+            <input type="submit" value="Update" class="btn btn-warning w-25" id="update-user-btn"/>
+        </div>
+    </form>
+</div>
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content  text-warning">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title" id="staticBackdropLabel">User Address List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-warning" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-secondary">
+                <div class="w-100 mt-3" id="address">
+                    <input type="text" class="form-control mt-2" placeholder="Street" id="inputStreet">
+                    <small id="streetHelp" class="form-text mt-0 text-danger"></small>
+                    <input type="text" class="form-control mt-2" id="inputCity" placeholder="City">
+                    <small id="cityHelp" class="form-text mt-0 text-danger"></small>
+                    <input type="text" class="form-control  mt-2" id="inputState" placeholder="State">
+                    <small id="stateHelp" class="form-text mt-0 text-danger"></small>
+                    <input type="text" class="form-control mt-2" id="inputZip" placeholder="Zip">
+                    <small id="zipHelp" class="form-text mt-0 text-danger"></small>
+                    <input type="text" class="form-control mt-2" id="inputCountry" placeholder="County">
+                    <small id="countryHelp" class="form-text mt-0 text-danger"></small>
+<!--                    <button type="button" class="btn-warning mt-2 px-5" id="save-address-btn">Add</button>-->
+                </div>
+
+            </div>
+            <div class="modal-footer bg-dark">
+                <button type="button" class="btn btn-warning" id="save-address-btn">Add Address</button>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{footer::footer}"></footer>
+<script th:src="@{/js/jQuery%203.6.4.js}"></script>
+<script th:src="@{/js/jquery-ui.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+    $(document).ready(function(){
+    $("#dob").datepicker({
+      dateFormat: "yy-mm-dd",
+      maxDate: 0,
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "-100:+0"
+    });
+    });
+</script>
+
+</body>
+</html>

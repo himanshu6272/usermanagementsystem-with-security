@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body class="bg-warning">
+<header th:replace="~{header::header-main}"></header>
+<div class="container div-cont">
+    <div class="row w-50 mx-auto pt-5">
+        <div class="col bg-secondary text-center login-user-icon-div p-3 rounded-top">
+            <h4 class="text-white">Login here</h4>
+        </div>
+    </div>
+    <div class="row w-50 mx-auto">
+        <div class="col w-75 bg-dark p-5 rounded-bottom">
+            <div th:if="${session.message}" th:classappend="${session.message.status}" class="alert alert-div"
+                 role="alert">
+                <p id="message" class="p-0 m-0" th:text="${session.message.message}"></p>
+                <th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>
+            </div>
+            <form th:action="@{/login}" class="border border-solid border-warning rounded-lg p-4 text-warning" method="post" id="login-form">
+                <div class="form-group">
+                    <label for="login-email-address">Email</label>
+                    <input type="text" class="form-control" id="login-email-address" placeholder="enter email" name="username">
+<!--                    <small id="emailHelp" class="form-text text-danger" th:if="${notExist}" th:text="${notExist}"></small>-->
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" class="form-control" id="login-password" placeholder="enter password" name="password">
+<!--                    <small id="passwordHelp" class="form-text text-danger" th:if="${invalid}" th:text="${invalid}"></small>-->
+                </div>
+                <input type="submit" class="btn btn-warning" id="login-submit-btn" value="Submit">
+                <div class="text-center">
+                    <a th:href="@{/oauth2/authorization/google}">Signin with Google</a>
+                </div>
+            </form>
+            <a href="forgot">Forgot Password</a>
+            <div class="text-center text-warning"><p class="d-inline">New user: &nbsp;</p><a href="register">create account</a></div>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{footer::footer}"></footer>
+<script th:src="@{/js/jQuery 3.6.4.js}" ></script>
+<script th:src="@{/js/custom.js}" ></script>
+</body>
+</html>

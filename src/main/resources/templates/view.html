@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-warning">
+<div th:if="${session.loggedIn == 'user'}"><header  th:replace="~{header::header-view}"></header></div>
+<div th:if="${session.loggedIn == 'admin'}"><header  th:replace="~{header::header-admin}"></header></div>
+<div th:if="${session.message}" th:classappend="${session.message.status}" class="alert alert-div mb-0"
+     role="alert">
+    <p id="message" class="p-0 m-0" th:text="${session.message.message}"></p>
+    <th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>
+</div>
+<div class="container mt-0 mb-4 p-3 d-flex justify-content-center text-warning">
+
+    <div class="card p-4 bg-dark pb-5">
+        <div class=" image d-flex flex-column justify-content-center align-items-center">
+            <button class="btn btn-dark"><img th:src="${imgUrl}" height="100" width="100" style="border-radius:50%;"/>
+            </button>
+            <div>
+            <span class="name mt-3" th:text="${user.firstName}"></span>&nbsp;<span class="name mt-3" th:text="${user.lastName}"></span>
+            </div>
+                <span class="idd" th:text="${user.email}"></span>
+
+            <div class="d-flex flex-row justify-content-center align-items-center gap-2"><span class="idd1" th:text="${user.mobile}">8849646272</span></div>
+            <div class=" d-flex mt-2">
+                <a th:href="@{'/edit/' + ${user.id}}" class="btn btn-warning text-dark">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{footer::footer}"></footer>
+<script th:src="@{/js/jQuery%203.6.4.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+
+</body>
+</html>

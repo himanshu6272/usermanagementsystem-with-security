@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-warning">
+<header th:replace="~{header::header-main}"></header>
+<div class="container div-cont">
+    <div class="row w-50 mx-auto">
+        <div class="col bg-secondary text-center login-user-icon-div p-2 rounded-top mt-5">
+            <h4 class="text-white">Forgot Password</h4>
+        </div>
+    </div>
+    <div class="row w-50 mx-auto">
+
+        <div class="col w-75 bg-dark p-5 rounded-bottom">
+            <div th:if="${session.message}" th:classappend="${session.message.status}" class="alert alert-div"
+                 role="alert">
+                <p id="message" class="p-0 m-0" th:text="${session.message.message}"></p>
+                <th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>
+            </div>
+            <form th:action="@{/forgotPassword}" class="border border-solid border-warning rounded-lg p-4 text-warning" method="post" id="forgot-form">
+                <div class="form-group">
+                    <label for="email-address">Email</label>
+                    <input type="text" class="form-control" id="email-address" placeholder="enter email" name="email">
+                    <small id="emailHelp" class="form-text"></small>
+                </div>
+                <div class="form-group">
+                    <label for="security-que">Security question: </label>
+                    <select class="form-control" name="securityQuestion" id="security-que">
+                        <option value="none">None</option>
+                        <option>Who is your favourite Bollywood Star?</option>
+                        <option>Who is your favourite Cricketer?</option>
+                        <option>Who is your favourite Teacher?</option>
+                        <option>Who you love the most?</option>
+                    </select>
+                    <small id="securityQuestionHelp" class="form-text mb-4"></small>
+                    <input type="text" class="form-control" id="security-answer" placeholder="Enter answer here" name="securityAnswer">
+                    <small id="securityanswerHelp" class="form-text"></small>
+                </div>
+                <input type="submit" class="btn btn-warning" id="forgot-submit-btn" value="Submit">
+            </form>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{footer::footer}"></footer>
+<script th:src="@{/js/jQuery%203.6.4.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+</body>
+</html>

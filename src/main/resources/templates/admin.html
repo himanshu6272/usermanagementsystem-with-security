@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/datatable.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-warning">
+<header th:replace="~{header::header-admin}"></header>
+<div class="container-fluid bg-dark text-warning" style="width:80%">
+    <div th:if="${session.message}" th:classappend="${session.message.status}" class="alert alert-div"
+         role="alert">
+        <p id="message" class="p-0 m-0" th:text="${session.message.message}"></p>
+        <th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>
+    </div>
+    <h2 class="text-center">Admin Dashboard</h2>
+    <hr class="bg-warning">
+    <table id="user-data-table" class="display bg-secondary" style="width:100%">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Contact Number</th>
+            <th>Role</th>
+            <th>Gender</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td ><span th:text="${user.firstName}"></span><span>&nbsp;</span><span th:text="${user.lastName}"></span></td>
+            <td><span th:text="${user.email}"></span></td>
+            <td><span th:text="${user.mobile}"></span></td>
+            <td><span th:text="${user.role}"></span></td>
+            <td><span th:text="${user.gender}"></span></td>
+            <td>
+                <div class="text-center">
+                <a th:href="@{'/edit/' + ${user.id}}" class="mx-1 "><img th:src="@{/images/edit.png}" width="20px" ></a>
+                <a th:href="@{'/delete/' + ${user.id}}" class="mx-1 remove-user-btn"><img th:src="@{/images/delete.png}" width="20px"></a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Contact Number</th>
+            <th>Role</th>
+            <th>Gender</th>
+            <th>Action</th>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+<footer th:replace="~{footer::footer}"></footer>
+
+<script th:src="@{/js/jQuery%203.6.4.js}"></script>
+<script th:src="@{/js/datatable.min.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+new DataTable('#user-data-table');
+</script>
+
+</body>
+</html>
